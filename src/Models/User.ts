@@ -1,8 +1,8 @@
 import BaseModel from './BaseModel';
-import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
+import {Entity, PrimaryGeneratedColumn, Column, BaseEntity} from 'typeorm';
 
 @Entity()
-export default class User implements BaseModel{
+export default class User extends BaseEntity implements BaseModel{
 
     @PrimaryGeneratedColumn()
     Id: number= 0;

@@ -3,7 +3,7 @@ import express from 'express';
 import morgan from 'morgan';
 import ProductsRoutes from './Routes/ProductRoutes'
 import 'reflect-metadata';
-import {createConnection, Connection} from 'typeorm'
+import {createConnection} from 'typeorm'
 
 const app= express();
 //Settings
@@ -15,21 +15,18 @@ app.listen(app.get('port'),()=>{
 app.use(morgan('dev'));
 app.use(express.json());
 
-
 //routes
 app.use(ProductsRoutes);
 
 
 //Create database connectionL
 
-async function ConectToDB(){
-    try{
-        const connnection= await createConnection('default');
+createConnection().then(connnection=>{
 
-    }
-    catch(error){
-        console.log(error);
+
+    if (connnection.isConnected){
+        console.log(`The connection to the database is established`);
     }
 
-}
-ConectToDB();
+})
+.catch(error=> console.log(error));

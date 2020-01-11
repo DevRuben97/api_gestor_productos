@@ -1,8 +1,8 @@
 import BaseModel from '../Models/BaseModel'
-import {Entity,Column,PrimaryGeneratedColumn} from 'typeorm'
+import {Entity,Column,PrimaryGeneratedColumn, BaseEntity} from 'typeorm'
 
 @Entity()
-export default class Product implements BaseModel{
+export default class Product extends BaseEntity implements BaseModel{
 
     @PrimaryGeneratedColumn()
     Id: number =0;
@@ -10,8 +10,6 @@ export default class Product implements BaseModel{
     Code: number= 0;
     @Column()
     Name: string= "";
-    @Column()
-    SurName: string= "";
     @Column()
     Price: string= "";
     @Column()
