@@ -9,7 +9,13 @@ export default class User extends BaseEntity implements BaseModel{
     @Column()
     Name: string= "";
     @Column()
-    SurName: string= "";    
+    SurName: string= ""; 
+    @Column()
+    Email: string= "";
+    @Column()
+    Password: string="";
+    @Column()
+    PhoneNumber: string="";   
     @Column()
     CreatedDate: string="";
     @Column()

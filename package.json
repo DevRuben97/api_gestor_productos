@@ -12,7 +12,9 @@
   "author": "Ruben A. Batista Santos",
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "@types/cors": "^2.8.6",
     "@types/morgan": "^1.7.37",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "morgan": "^1.9.1",
     "pg": "^7.17.0",

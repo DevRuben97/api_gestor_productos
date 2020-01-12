@@ -18,6 +18,8 @@ export default class Product extends BaseEntity implements BaseModel{
     Stock: number= 0;
     @Column()
     Taxed: boolean= false;
+    @Column({nullable: true})
+    Description: string="";
     @Column()
     Category: string= "";
     @Column()
