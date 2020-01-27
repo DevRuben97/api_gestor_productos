@@ -3,11 +3,11 @@ const AuthRoutes= Router();
 
 import {
     Login,
-    UserProfile
+    GetUserProfile
 
 } from '../Controllers/AuthController';
 
 AuthRoutes.post('/Auth/login',Login);
-AuthRoutes.get('/Auth/UserProfile/:id', UserProfile)
+AuthRoutes.get('/Auth/UserProfile/:id', GetUserProfile)
 
 export default AuthRoutes;

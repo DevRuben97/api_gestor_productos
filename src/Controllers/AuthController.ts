@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {getConnection} from 'typeorm';
 import User from '../Models/User';
 import ModelResponse from '../Helpers/ModelResponse';
+import UserProfile from "../Models/DTOs/UserProfile";
 
 export async function Login(Req: Request, Res: Response){
 
@@ -30,12 +31,17 @@ export async function Login(Req: Request, Res: Response){
     }
 }
 
-export async function UserProfile(Req: Request, Res: Response){
+export async function GetUserProfile(Req: Request, Res: Response){
     try{
         const repo= getConnection().getRepository(User);
         let user= await repo.findOne(Req.params.id);
         if (user){
-            return Res.json(new ModelResponse(true, 'Operación exitosa', user))
+            const profile= new UserProfile();
+            profile.FullName= `${user.Name} ${user.SurName}`;
+            profile.Email= user.Email;
+            profile.Identification= user.Identification;
+            profile.Phone= user.PhoneNumber;
+            return Res.json(new ModelResponse(true, 'Operación exitosa', profile))
         }
         else{
             return Res.json(new ModelResponse(false, 'Los datos suministrados son invalidos.', null))

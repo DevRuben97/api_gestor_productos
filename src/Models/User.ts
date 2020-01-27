@@ -12,6 +12,8 @@ export default class User extends BaseEntity implements BaseModel{
     SurName: string= ""; 
     @Column()
     Email: string= "";
+    @Column({nullable: true})
+    Identification: string= "";
     @Column()
     Password: string="";
     @Column()
