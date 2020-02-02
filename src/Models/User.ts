@@ -1,5 +1,6 @@
 import BaseModel from './BaseModel';
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity} from 'typeorm';
+import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany} from 'typeorm';
+import Movement from './Movement';
 
 @Entity()
 export default class User extends BaseEntity implements BaseModel{
@@ -25,5 +26,10 @@ export default class User extends BaseEntity implements BaseModel{
     @Column()
     State: number=0;
 
+    //Navigation Properties:
+    @OneToMany(type => Movement, movement => movement.User_id)
+    Movements!: Movement[];
+
+    
 
 }

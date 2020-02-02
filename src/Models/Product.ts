@@ -1,5 +1,6 @@
 import BaseModel from '../Models/BaseModel'
-import {Entity,Column,PrimaryGeneratedColumn, BaseEntity} from 'typeorm'
+import {Entity,Column,PrimaryGeneratedColumn, BaseEntity, OneToMany} from 'typeorm'
+import MovementDetails from './MovementDetails';
 
 @Entity()
 export default class Product extends BaseEntity implements BaseModel{
@@ -31,5 +32,8 @@ export default class Product extends BaseEntity implements BaseModel{
     @Column()
     State: number= 1;
 
+    //Navigation properties:
+    @OneToMany(type=> MovementDetails, dt=> dt.Product)
+    MovementDetails!: MovementDetails[]
     
 }
