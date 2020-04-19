@@ -8,6 +8,7 @@ import cors from 'cors';
 //Routes
 import ProductsRoutes from './Routes/ProductRoutes'
 import AuthRoutes from './Routes/AuthRoutes';
+import MovementsRoutes from './Routes/MovementsRoutes';
 
 const app= express();
 //Settings
@@ -26,7 +27,7 @@ app.use(cors());
 //Routes
 app.use(ProductsRoutes);
 app.use(AuthRoutes);
-
+app.use(MovementsRoutes);
 
 //Create database connectionL
 
