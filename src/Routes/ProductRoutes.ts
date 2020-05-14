@@ -8,7 +8,8 @@ import {
     FindById,
     CreateProduct,
     EditProduct,
-    DeleteProduct
+    DeleteProduct,
+    products_select
 } from '../Controllers/ProductController'
 
 ProductsRoutes.get('/Products',ProductList);
@@ -20,5 +21,7 @@ ProductsRoutes.post('/Products', CreateProduct);
 ProductsRoutes.put('/Products',EditProduct);
 
 ProductsRoutes.delete('/Products/:id',DeleteProduct);
+
+ProductsRoutes.get('/Products/productsForSelect', products_select);
 
 export default ProductsRoutes;

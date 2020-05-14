@@ -1,7 +1,12 @@
 import {Request,Response} from 'express';
 import {getConnection} from 'typeorm';
+
 import Product from '../Models/Product';
+
+import EntityValue from '../Models/DTOs/Common/EntityValue';
+
 import ModelResponse from '../Helpers/ModelResponse';
+
 
 
 export async function ProductList(Req: Request, Res: Response){
@@ -91,4 +96,36 @@ export async function DeleteProduct(Req: Request, Res: Response){
         Res.json(new ModelResponse(false, "An unexpected error has occurred.", error));
     }
 
+}
+
+export async function products_select(Req: Request, Res: Response){
+    try{
+        const repo= getConnection().getRepository(Product);
+        var ListProducts= await repo.find();
+        console.log(ListProducts);
+        ListProducts= ListProducts.sort((a,b)=>  b.Id- a.Id);
+        let values= new Array<EntityValue>();
+
+
+        ListProducts.map((item)=> {
+            values.push(new EntityValue(item.Id, item.Name))
+        })
+
+        Res.json(new ModelResponse(true, "", values));
+    }
+    catch(error){
+        console.log(error);
+        Res.json(new ModelResponse(false,"An unexpected error has occurred.", error))
+    }
+}
+
+
+export async function get_productInfo(Req: Request, Res: Response){
+    try{
+        const id=  Req.params.id;
+    }
+    catch(error){
+        console.log(error);
+        Res.json(new ModelResponse(false,"An unexpected error has occurred.", error))
+    }
 }
