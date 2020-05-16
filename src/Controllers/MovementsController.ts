@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import {getConnection} from 'typeorm';
 import Movement from "../Models/Movement";
-import ModelResponse from "../Helpers/ModelResponse";
+import ModelResponse from "../Helpers/Response/ModelResponse";
 
 
 

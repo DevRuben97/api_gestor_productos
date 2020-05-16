@@ -1,43 +1,43 @@
 //Modules
-import express, { NextFunction,Request, Response } from 'express';
-import morgan from 'morgan';
+import express from 'express';
 import 'reflect-metadata';
-import {createConnection} from 'typeorm'
-import cors from 'cors';
 
-//Routes
-import ProductsRoutes from './Routes/ProductRoutes'
-import AuthRoutes from './Routes/AuthRoutes';
-import MovementsRoutes from './Routes/MovementsRoutes';
-
-const app= express();
-//Settings
-app.set('port',4000);
-app.listen(app.get('port'),()=>{
-    console.log(`Server Started on port ${app.get('port')}`)
-})
-//Middlewares
-app.use(morgan('dev'));
-app.use(express.json());
-
-//CORS CONFIGURATION
-app.use(cors());
+import {
+    ConfigureServices,
+    configureDatabase
+} from './config';
+import configureRouter from './Routes/Router';
+import { Server } from 'http';
 
 
-//Routes
-app.use(ProductsRoutes);
-app.use(AuthRoutes);
-app.use(MovementsRoutes);
+let _server: Server;
 
-//Create database connectionL
+const server = {
+    start() {
+        //Initialize the express server:
+        const app = express();
 
-createConnection().then(connnection=>{
+        //Settings
+        app.set('port', 4000);
+        _server=  app.listen(app.get('port'), () => {
+            console.log(`Server Started on port ${app.get('port')}`)
+        })
+        //services:
+        ConfigureServices(app);
 
 
-    if (connnection.isConnected){
-        console.log(`The connection to the database is established`);
-        
+        //Routes
+        configureRouter(app);
+
+        //Create database connection:
+        configureDatabase();
+    },
+    close(){
+        _server.close();
     }
+}
 
-})
-.catch(error=> console.log(error));
+
+if (!module.parent){
+    server.start();
+}

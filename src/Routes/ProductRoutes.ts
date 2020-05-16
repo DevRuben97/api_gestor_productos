@@ -1,6 +1,4 @@
 import {Router} from 'express';
-const ProductsRoutes= Router();
-
 
 //Controllers
 import {
@@ -12,16 +10,21 @@ import {
     products_select
 } from '../Controllers/ProductController'
 
-ProductsRoutes.get('/Products',ProductList);
+const ProductRoutes={
+    source: '/Products',
+    router: Router()
+}
 
-ProductsRoutes.get('/Products/:id',FindById);
+ProductRoutes.router.get('/',ProductList);
 
-ProductsRoutes.post('/Products', CreateProduct);
+ProductRoutes.router.get('/:id',FindById);
 
-ProductsRoutes.put('/Products',EditProduct);
+ProductRoutes.router.post('/', CreateProduct);
 
-ProductsRoutes.delete('/Products/:id',DeleteProduct);
+ProductRoutes.router.put('/',EditProduct);
 
-ProductsRoutes.get('/Products/productsForSelect', products_select);
+ProductRoutes.router.delete('/:id',DeleteProduct);
 
-export default ProductsRoutes;
+ProductRoutes.router.get('/ForSelect/:0', products_select);
+
+export default ProductRoutes;

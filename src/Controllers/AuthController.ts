@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import {getConnection} from 'typeorm';
 import User from '../Models/User';
-import ModelResponse from '../Helpers/ModelResponse';
+import ModelResponse from '../Helpers/Response/ModelResponse';
 import UserProfile from "../Models/DTOs/UserProfile";
 
 export async function Login(Req: Request, Res: Response){

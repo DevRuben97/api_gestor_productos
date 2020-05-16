@@ -5,7 +5,7 @@ import Product from '../Models/Product';
 
 import EntityValue from '../Models/DTOs/Common/EntityValue';
 
-import ModelResponse from '../Helpers/ModelResponse';
+import ModelResponse from '../Helpers/Response/ModelResponse';
 
 
 
@@ -102,7 +102,6 @@ export async function products_select(Req: Request, Res: Response){
     try{
         const repo= getConnection().getRepository(Product);
         var ListProducts= await repo.find();
-        console.log(ListProducts);
         ListProducts= ListProducts.sort((a,b)=>  b.Id- a.Id);
         let values= new Array<EntityValue>();
 
