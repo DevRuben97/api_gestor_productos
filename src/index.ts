@@ -17,11 +17,6 @@ const server = {
         //Initialize the express server:
         const app = express();
 
-        //Settings
-        app.set('port', 4000);
-        _server=  app.listen(app.get('port'), () => {
-            console.log(`Server Started on port ${app.get('port')}`)
-        })
         //services:
         ConfigureServices(app);
 
@@ -29,15 +24,24 @@ const server = {
         //Routes
         configureRouter(app);
 
+        //Starting:
+        const config = app.get('config');
+        _server = app.listen(config.PORT, config.HOST, () => {
+            console.log(`Server Started on PATH http://${config.HOST}:${config.PORT}`)
+        })
+        _server.on('error', expetion => {
+            console.log(expetion);
+        })
+
         //Create database connection:
         configureDatabase();
     },
-    close(){
+    close() {
         _server.close();
     }
 }
 
 
-if (!module.parent){
+if (!module.parent) {
     server.start();
 }

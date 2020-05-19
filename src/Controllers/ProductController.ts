@@ -117,14 +117,3 @@ export async function products_select(Req: Request, Res: Response){
         Res.json(new ModelResponse(false,"An unexpected error has occurred.", error))
     }
 }
-
-
-export async function get_productInfo(Req: Request, Res: Response){
-    try{
-        const id=  Req.params.id;
-    }
-    catch(error){
-        console.log(error);
-        Res.json(new ModelResponse(false,"An unexpected error has occurred.", error))
-    }
-}
