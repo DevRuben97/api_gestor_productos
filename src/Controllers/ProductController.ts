@@ -101,7 +101,9 @@ export async function DeleteProduct(Req: Request, Res: Response){
 export async function products_select(Req: Request, Res: Response){
     try{
         const repo= getConnection().getRepository(Product);
-        var ListProducts= await repo.find();
+        var ListProducts= await repo.createQueryBuilder()
+        .select()
+        .getMany();
         ListProducts= ListProducts.sort((a,b)=>  b.Id- a.Id);
         let values= new Array<EntityValue>();
 

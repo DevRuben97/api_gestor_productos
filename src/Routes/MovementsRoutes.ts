@@ -2,12 +2,16 @@ import {Router} from 'express';
 
 
 //Functions:
-import {MovementsList} from '../Controllers/MovementsController';
+import {
+    MovementsList,
+    getMovementTypes
+} from '../Controllers/MovementsController';
 
 const MovementsRoutes= Router();
 
 
-MovementsRoutes.get('/Movements', MovementsList);
+MovementsRoutes.get('/', MovementsList);
+MovementsRoutes.get('/Types/',getMovementTypes);
 
 
 export default MovementsRoutes;
