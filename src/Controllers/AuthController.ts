@@ -31,7 +31,7 @@ export async function Login(Req: Request, Res: Response){
     }
 }
 
-export async function GetUserProfile(Req: Request, Res: Response){
+export async function GetUserProfile(Req: Request, Res: Response): Promise<Response>{
     try{
         const repo= getConnection().getRepository(User);
         let user= await repo.findOne(Req.params.id);

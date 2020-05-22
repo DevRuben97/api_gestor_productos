@@ -8,7 +8,7 @@ import ModelResponse from "../Helpers/Response/ModelResponse";
 
 
 
-export async function MovementsList(req: Request, res: Response){
+export async function MovementsList(req: Request, res: Response): Promise<Response>{
 
     try{
         const repo= getConnection().getRepository(Movement);
@@ -16,15 +16,15 @@ export async function MovementsList(req: Request, res: Response){
         list.sort((a,b)=> b.Id- a.Id);
         
 
-        res.json(new ModelResponse(true, "Operación Exitosa", list));
+       return res.json(new ModelResponse(true, "Operación Exitosa", list));
     }
     catch(error){
         console.log(error);
-        res.json(new ModelResponse(false, "Ha ocurrido un error inesperado", error));
+       return res.json(new ModelResponse(false, "Ha ocurrido un error inesperado", error));
     }
 }
 
-export async function getMovementTypes(req: Request, res: Response){
+export async function getMovementTypes(req: Request, res: Response): Promise<Response>{
     try{
         const repo= getConnection().getRepository(ApplicationCode);
         const values= await repo.createQueryBuilder()
@@ -36,11 +36,11 @@ export async function getMovementTypes(req: Request, res: Response){
         values.map((item)=> {
             selectValues.push(new EntityValue(item.CodeId, item.Description))
         });
-        res.json(new ModelResponse(true,"", selectValues));
+       return res.json(new ModelResponse(true,"", selectValues));
 
     }
     catch(exeption){
         console.log(exeption);
-        res.json(new ModelResponse(false, "Ha ocurrido un error inesperado", exeption))
+       return res.json(new ModelResponse(false, "Ha ocurrido un error inesperado", exeption))
     }
 }
