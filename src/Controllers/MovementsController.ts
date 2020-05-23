@@ -44,3 +44,22 @@ export async function getMovementTypes(req: Request, res: Response): Promise<Res
        return res.json(new ModelResponse(false, "Ha ocurrido un error inesperado", exeption))
     }
 }
+
+export async function NewMovement(req: Request, res: Response): Promise<Response>{
+    try{
+        const repo= getConnection().getRepository(Movement);
+        const movement= repo.create(req.body);
+        const result= await repo.save(movement);
+
+        if (result!== undefined){
+            return res.json(new ModelResponse(true, "El Movimiento fue registrado correctamente", null));
+        }
+        else{
+            return res.json(new ModelResponse(false, "Ha ocurrido un error inesperado en el prcesamiento de su solicitud", null))
+        }
+    }
+    catch(err){
+        console.log(err);
+        return res.json(new ModelResponse(false, "Ha ocurrido un error inesperado", err))
+    }
+}
