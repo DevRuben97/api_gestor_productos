@@ -24,7 +24,7 @@ export default class MovementDetails extends BaseEntity implements BaseModel{
     //Navigation properties:
     @ManyToOne(type=> Movement, movement=> movement.Details)
     @JoinColumn({name: 'Movement_id'})
-    Movement!: Movement
+    Movement!: Movement;
     @ManyToOne(type=> Product, product=> product.MovementDetails)
     @JoinColumn({name: 'Product_id'})
     Product!: Product;

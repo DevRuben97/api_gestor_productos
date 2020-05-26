@@ -16,7 +16,6 @@ export async function MovementsList(req: Request, res: Response): Promise<Respon
         const repo= getConnection().getRepository(Movement);
         let list= await repo.find();
         list.sort((a,b)=> b.Id- a.Id);
-        console.log(list);
         
 
        return res.json(new ModelResponse(true, "Operación Exitosa", list));
@@ -74,5 +73,56 @@ export async function NewMovement(req: Request, res: Response): Promise<Response
     catch(err){
         console.log(err);
         return res.json(new ModelResponse(false, "Ha ocurrido un error inesperado", err))
+    }
+}
+
+export async function editMovement(req: Request, res: Response): Promise<Response>{
+    try{
+        const movementRepo= getConnection().getRepository(Movement);
+        const detailsRepo= getConnection().getRepository(MovementDetails);
+        const movement: Movement= movementRepo.merge(req.body);
+        const result= await movementRepo.update(movement.Id, movement);
+
+        //Update the details:
+        const actualDetails= await detailsRepo.createQueryBuilder()
+        .select()
+        .where("MovementDetails.Movement_Id== :Id", {Id: movement.Id})
+        .getMany();
+        //Delete the actual:
+        actualDetails.forEach(s=> detailsRepo.delete(s));
+
+        //Add the news:
+        movement.Details.forEach(detail=> {
+            detail.Movement_id= movement.Id
+            detail.CreatedDate= getToday();
+            detail.ModificationDate= getToday();
+            detailsRepo.insert(detail);
+        });
+
+        if (result!== undefined){
+            return res.json(new ModelResponse(true, "Cambios realizados satisfacoriamente", null));
+        }
+        else{
+            return res.json(new ModelResponse(false, "Ha ocurrido un error inesperado en el prcesamiento de su solicitud", null))
+        }
+    }
+    catch(err){
+        console.log(err);
+        return res.json(new ModelResponse(false, "Ha ocurrido un error inesperado", err));
+    }
+}
+
+export async function getMovementById(req: Request, res: Response): Promise<Response>{
+    try{
+        const repo = getConnection().getRepository(Movement);
+        const movement= await repo.findOne(req.params.id, {
+            relations: ['Details', 'Details.Product']
+        });
+
+        return res.json(new ModelResponse(true, "", movement));
+    }
+    catch(err){
+        console.log(err);
+        return res.json(new ModelResponse(false, "Ha ocurrido un error inesperado", err));
     }
 }
