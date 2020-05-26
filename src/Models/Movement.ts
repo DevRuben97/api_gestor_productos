@@ -28,7 +28,9 @@ export default class Movement extends BaseEntity implements BaseModel{
 
 
     //Navigation properties:
-    @OneToMany(type=> MovementDetails, Details=> Details.Movement_id)
+    @OneToMany(type=> MovementDetails, Details=> Details.Movement_id, {
+        cascade: true
+    })
     Details!: MovementDetails[]
 
     @ManyToOne(type=> User, us=> us.Movements)

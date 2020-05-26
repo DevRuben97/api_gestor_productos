@@ -5,6 +5,8 @@ import Movement from "../Models/Movement";
 import ApplicationCode from '../Models/ApplicationCode';
 import EntityValue from '../Models/DTOs/Common/EntityValue';
 import ModelResponse from "../Helpers/Response/ModelResponse";
+import MovementDetails from "../Models/MovementDetails";
+import { getToday } from "../Helpers/Date";
 
 
 
@@ -14,6 +16,7 @@ export async function MovementsList(req: Request, res: Response): Promise<Respon
         const repo= getConnection().getRepository(Movement);
         let list= await repo.find();
         list.sort((a,b)=> b.Id- a.Id);
+        console.log(list);
         
 
        return res.json(new ModelResponse(true, "Operación Exitosa", list));
@@ -47,9 +50,19 @@ export async function getMovementTypes(req: Request, res: Response): Promise<Res
 
 export async function NewMovement(req: Request, res: Response): Promise<Response>{
     try{
-        const repo= getConnection().getRepository(Movement);
-        const movement= repo.create(req.body);
-        const result= await repo.save(movement);
+        const movementRepo= getConnection().getRepository(Movement);
+        const detailsRepo= getConnection().getRepository(MovementDetails);
+        let movement: Movement= req.body;
+        movement= movementRepo.create(movement);
+        movement.User_id= 1;
+        movement.CreatedDate= getToday()
+        const result= await movementRepo.insert(movement);
+
+        movement.Details.forEach(detail=> {
+            detail.Movement_id= movement.Id
+            detail.CreatedDate= getToday();
+            detailsRepo.insert(detail);
+        });
 
         if (result!== undefined){
             return res.json(new ModelResponse(true, "El Movimiento fue registrado correctamente", null));
