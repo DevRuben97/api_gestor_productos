@@ -15,6 +15,8 @@ export default class MovementDto{
 
     Type: string;
 
+    TypeLabel: string;
+
     User_id: number;
 
     UserFullName: string

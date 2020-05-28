@@ -19,9 +19,10 @@ export const MovementSchema= createSchema<MovementDto,Movement>({
     ModificationDate: 'ModificationDate',
     State: 'State',
     Type: 'Type',
-    UserFullName: 'User.Name',
+    UserFullName: detail=> `${detail.User.Name} ${detail.User.SurName}`,
     User_id: 'User_id',
-    StateLabel: ''
+    StateLabel: '',
+    TypeLabel: detail=> detail.Type=== 'MT001'? 'Venta': 'Compra'
 });
 
 

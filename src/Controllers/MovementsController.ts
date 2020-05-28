@@ -17,11 +17,15 @@ export async function MovementsList(req: Request, res: Response): Promise<Respon
 
     try{
         const repo= getConnection().getRepository(Movement);
-        let list= await repo.find();
+        let list= await repo.find({
+            relations: ['User']
+        })
         list.sort((a,b)=> b.Id- a.Id);
+
+        const listDto: MovementDto[] = mapper.map(MovementDto, list);
         
 
-       return res.json(new ModelResponse(true, "Operación Exitosa", list));
+       return res.json(new ModelResponse(true, "Operación Exitosa", listDto));
     }
     catch(error){
         console.log(error);
