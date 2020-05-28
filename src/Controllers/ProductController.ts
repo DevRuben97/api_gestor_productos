@@ -1,5 +1,5 @@
-import {Request,Response} from 'express';
-import {getConnection} from 'typeorm';
+import { Request, Response } from 'express';
+import { getConnection } from 'typeorm';
 
 import Product from '../Models/Product';
 
@@ -9,113 +9,113 @@ import ModelResponse from '../Helpers/Response/ModelResponse';
 
 
 
-export async function ProductList(Req: Request, Res: Response): Promise<Response>{
+export async function ProductList(Req: Request, Res: Response): Promise<Response> {
 
-    try{
-        const repo= getConnection().getRepository(Product);
-        var ListOfProducts= await repo.find();
-        ListOfProducts= ListOfProducts.sort((a,b)=>  b.Id- a.Id);
+    try {
+        const repo = getConnection().getRepository(Product);
+        var ListOfProducts = await repo.find();
+        ListOfProducts = ListOfProducts.sort((a, b) => b.Id - a.Id);
 
-       return Res.json(new ModelResponse(true, "Operation Success", ListOfProducts));
+        return Res.json(new ModelResponse(true, "Operation Success", ListOfProducts));
 
     }
-    catch(error){
+    catch (error) {
         console.log(error);
-       return Res.json(new ModelResponse(false, "An unexpected error has occurred.", []));
+        return Res.json(new ModelResponse(false, "An unexpected error has occurred.", []));
     }
 
-    
+
 
 }
-export async function FindById(Req: Request, Res: Response): Promise<Response>{
-    try{
-        const repo= getConnection().getRepository(Product);
-        const product= await repo.findOne(Req.params.id)
+export async function FindById(Req: Request, Res: Response): Promise<Response> {
+    try {
+        const repo = getConnection().getRepository(Product);
+        const product = await repo.findOne(Req.params.id)
 
         return Res.json(new ModelResponse(true, "Operation Success", product));
 
     }
-    catch(error){
+    catch (error) {
         console.log(error);
-       return Res.json(new ModelResponse(false, "An unexpected error has occurred.", []));
+        return Res.json(new ModelResponse(false, "An unexpected error has occurred.", []));
     }
 }
 
-export async function CreateProduct(Req: Request, Res: Response): Promise<Response>{
+export async function CreateProduct(Req: Request, Res: Response): Promise<Response> {
     try {
-        
-        const repo= getConnection().getRepository(Product);
-        Req.body.State= 1;
-       const product= await repo.create(Req.body);
-        const results= await repo.save(product);
-        if (results!== undefined){
-           return Res.json(new ModelResponse(true, "Operation Susccess", {EntityId: Req.body.Id}));
-        }
-        else{
-          return  Res.json(new ModelResponse(false, "An error occurred in the processing of the request", {EntityId: Req.body.Id}));
-        }
 
-    } catch (error) {
-        console.log(error);
-       return Res.json(new ModelResponse(false, "An unexpected error has occurred.", error));
-    }
-
-}
-export async function EditProduct(Req: Request, Res: Response): Promise<Response>{
-    try {
-        
-        const repo= getConnection().getRepository(Product);
-       const product= await repo.merge(Req.body);
-        const results= await repo.save(product);
-        if (results!== undefined){
-           return Res.json(new ModelResponse(true, "Operation Susccess", {EntityId: results.Id}));
+        const repo = getConnection().getRepository(Product);
+        Req.body.State = 1;
+        const product = await repo.create(Req.body);
+        const results = await repo.save(product);
+        if (results !== undefined) {
+            return Res.json(new ModelResponse(true, "Operation Susccess", { EntityId: Req.body.Id }));
         }
-        else{
-           return Res.json(new ModelResponse(false, "Ha ocurrido un error en el procesamiento de la solicitud",{EntityId: Req.body.Id}));
+        else {
+            return Res.json(new ModelResponse(false, "An error occurred in the processing of the request", { EntityId: Req.body.Id }));
         }
 
     } catch (error) {
         console.log(error);
         return Res.json(new ModelResponse(false, "An unexpected error has occurred.", error));
-    }    
+    }
+
 }
-export async function DeleteProduct(Req: Request, Res: Response): Promise<Response>{
-
+export async function EditProduct(Req: Request, Res: Response): Promise<Response> {
     try {
-        const repo= getConnection().getRepository(Product);
-    const results= await repo.delete(Req.params.id);
 
-    if (results.affected!== null || results.affected!== undefined){
-       return Res.json(new ModelResponse(true, "Operation Susccess", {affected: results.affected}));   
-    }
-    else{
-       return Res.json(new ModelResponse(false, "Ha ocurrido un error en el procesamiento de la solicitud", {affected: 0}));
-    }
+        const repo = getConnection().getRepository(Product);
+        const product = await repo.merge(Req.body);
+        const results = await repo.save(product);
+        if (results !== undefined) {
+            return Res.json(new ModelResponse(true, "Operation Susccess", { EntityId: results.Id }));
+        }
+        else {
+            return Res.json(new ModelResponse(false, "Ha ocurrido un error en el procesamiento de la solicitud", { EntityId: Req.body.Id }));
+        }
+
     } catch (error) {
         console.log(error);
-       return Res.json(new ModelResponse(false, "An unexpected error has occurred.", error));
+        return Res.json(new ModelResponse(false, "An unexpected error has occurred.", error));
+    }
+}
+export async function DeleteProduct(Req: Request, Res: Response): Promise<Response> {
+
+    try {
+        const repo = getConnection().getRepository(Product);
+        const results = await repo.delete(Req.params.id);
+
+        if (results.affected !== null || results.affected !== undefined) {
+            return Res.json(new ModelResponse(true, "Operation Susccess", { affected: results.affected }));
+        }
+        else {
+            return Res.json(new ModelResponse(false, "Ha ocurrido un error en el procesamiento de la solicitud", { affected: 0 }));
+        }
+    } catch (error) {
+        console.log(error);
+        return Res.json(new ModelResponse(false, "An unexpected error has occurred.", error));
     }
 
 }
 
-export async function products_select(Req: Request, Res: Response){
-    try{
-        const repo= getConnection().getRepository(Product);
-        var ListProducts= await repo.createQueryBuilder()
-        .select()
-        .getMany();
-        ListProducts= ListProducts.sort((a,b)=>  b.Id- a.Id);
-        let values= new Array<EntityValue>();
+export async function products_select(Req: Request, Res: Response) {
+    try {
+        const repo = getConnection().getRepository(Product);
+        var ListProducts = await repo.createQueryBuilder()
+            .select()
+            .getMany();
+        ListProducts = ListProducts.sort((a, b) => b.Id - a.Id);
+        let values = new Array<EntityValue>();
 
 
-        ListProducts.map((item)=> {
+        ListProducts.map((item) => {
             values.push(new EntityValue(item.Id, item.Name))
         })
 
         Res.json(new ModelResponse(true, "", values));
     }
-    catch(error){
+    catch (error) {
         console.log(error);
-        Res.json(new ModelResponse(false,"An unexpected error has occurred.", error))
+        Res.json(new ModelResponse(false, "An unexpected error has occurred.", error))
     }
 }

@@ -14,9 +14,12 @@
   "dependencies": {
     "@types/cors": "^2.8.6",
     "@types/morgan": "^1.7.37",
+    "@types/numeral": "0.0.28",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "morgan": "^1.9.1",
+    "morphism": "^1.12.3",
+    "numeral": "^2.0.6",
     "pg": "^7.17.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.22"

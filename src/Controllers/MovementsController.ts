@@ -8,7 +8,10 @@ import ModelResponse from "../Helpers/Response/ModelResponse";
 import MovementDetails from "../Models/MovementDetails";
 import { getToday } from "../Helpers/Date";
 
-
+//Maping:
+import mapper from '../Helpers/MapperSchemas/Profile';
+import MovementDto from "../Models/DTOs/MovementDto";
+import MovementDetailsDto from "../Models/DTOs/MovementDetailsDto";
 
 export async function MovementsList(req: Request, res: Response): Promise<Response>{
 
@@ -115,11 +118,13 @@ export async function editMovement(req: Request, res: Response): Promise<Respons
 export async function getMovementById(req: Request, res: Response): Promise<Response>{
     try{
         const repo = getConnection().getRepository(Movement);
-        const movement= await repo.findOne(req.params.id, {
-            relations: ['Details', 'Details.Product']
+        const movement= await repo.findOneOrFail(req.params.id, {
+            relations: ['Details', 'Details.Product','User']
         });
+        const Mdto: MovementDto= mapper.map(MovementDto,movement);
+        Mdto.Details= mapper.map(MovementDetailsDto, movement.Details);
 
-        return res.json(new ModelResponse(true, "", movement));
+        return res.json(new ModelResponse(true, "", Mdto));
     }
     catch(err){
         console.log(err);

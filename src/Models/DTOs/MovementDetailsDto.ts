@@ -9,9 +9,13 @@ export default class MovementDetailsDto{
 
     product_name: string;
 
-    price: number;
+    Price: number;
 
     Quantity: number;
+
+    Stock: number;
+
+    subTotal: number;
 
     CreatedDate: string;
 
