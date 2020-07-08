@@ -12,6 +12,7 @@ import { getToday } from "../Helpers/Date";
 import mapper from '../Helpers/MapperSchemas/Profile';
 import MovementDto from "../Models/DTOs/MovementDto";
 import MovementDetailsDto from "../Models/DTOs/MovementDetailsDto";
+import { Console } from "console";
 
 export async function MovementsList(req: Request, res: Response): Promise<Response>{
 
@@ -69,7 +70,7 @@ export async function NewMovement(req: Request, res: Response): Promise<Response
             detail.CreatedDate= getToday();
             detailsRepo.insert(detail);
         });
-
+        
         if (result!== undefined){
             return res.json(new ModelResponse(true, "El Movimiento fue registrado correctamente", null));
         }
@@ -97,6 +98,7 @@ export async function editMovement(req: Request, res: Response): Promise<Respons
         .getMany();
         //Delete the actual:
         actualDetails.forEach(s=> detailsRepo.delete(s));
+        console.log(actualDetails);
 
         //Add the news:
         movement.Details.forEach(detail=> {

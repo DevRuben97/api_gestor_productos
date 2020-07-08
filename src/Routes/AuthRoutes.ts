@@ -7,7 +7,7 @@ import {
 
 } from '../Controllers/AuthController';
 
-AuthRoutes.post('/Auth/login',Login);
-AuthRoutes.get('/Auth/UserProfile/:id', GetUserProfile)
+AuthRoutes.post('/login/',Login);
+AuthRoutes.get('/UserProfile/:id', GetUserProfile)
 
 export default AuthRoutes;
