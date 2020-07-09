@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { getConnection } from 'typeorm';
+import numeral from 'numeral';
 
 import Product from '../Models/Product';
 
@@ -117,5 +118,44 @@ export async function products_select(Req: Request, Res: Response) {
     catch (error) {
         console.log(error);
         Res.json(new ModelResponse(false, "An unexpected error has occurred.", error))
+    }
+}
+
+export async function total_products(Req: Request, Res: Response): Promise<Response>{
+
+
+    try{
+        const repo= getConnection().getRepository(Product);
+        const products= await repo.find({
+            select: ["Id"]
+        });
+
+        return Res.json(new ModelResponse(true, "", products.length))
+    }
+    catch(err){
+        console.log(err);
+        return Res.json(new ModelResponse(true, "Ha ocurrido un error inesperado", null))
+    }
+}
+
+export async function total_warehouse(Req: Request, Res: Response): Promise<Response>{
+
+
+    try{
+        const repo= getConnection().getRepository(Product);
+        const products= await repo.find({
+            select: ["Price"]
+        });
+
+        let total= 0;
+        products.forEach(s=> {
+            total+= numeral(s.Price).value();
+        })
+
+        return Res.json(new ModelResponse(true, "", total));
+    }
+    catch(err){
+        console.log(err);
+        return Res.json(new ModelResponse(true, "Ha ocurrido un error inesperado", null))
     }
 }

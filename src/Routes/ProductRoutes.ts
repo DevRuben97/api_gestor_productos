@@ -7,7 +7,9 @@ import {
     CreateProduct,
     EditProduct,
     DeleteProduct,
-    products_select
+    products_select,
+    total_products,
+    total_warehouse
 } from '../Controllers/ProductController'
 
 const ProductRoutes={
@@ -26,5 +28,9 @@ ProductRoutes.router.put('/',EditProduct);
 ProductRoutes.router.delete('/:id',DeleteProduct);
 
 ProductRoutes.router.get('/ForSelect/:0', products_select);
+
+ProductRoutes.router.get('/ProductsCount/:0',total_products);
+
+ProductRoutes.router.get('/TotaltotalWarehouse/:0',total_warehouse);
 
 export default ProductRoutes;

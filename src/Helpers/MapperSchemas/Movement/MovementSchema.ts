@@ -31,7 +31,7 @@ export const MovementDetailsSchema= createSchema<MovementDetailsDto,MovementDeta
     CreatedDate: 'CreatedDate',
     ModificationDate: 'ModificationDate',
     Movement_id: 'Movement_id',
-    Product_id: 'Product_Id',
+    Product_id: 'Product_id',
     Quantity: 'Quantity',
     State: 'State',
     Stock: 'Product.Stock',
