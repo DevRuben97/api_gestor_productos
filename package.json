@@ -16,7 +16,7 @@
     "@types/morgan": "^1.7.37",
     "@types/numeral": "0.0.28",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "morgan": "^1.9.1",
     "morphism": "^1.12.3",
     "numeral": "^2.0.6",
